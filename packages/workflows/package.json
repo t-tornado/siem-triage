@@ -1,0 +1,14 @@
+{
+  "name": "@st/workflows",
+  "version": "0.0.0",
+  "description": "Workflows package",
+  "license": "ISC",
+  "author": "github.com/t-tornado",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@st/shared": "workspace:^",
+    "@temporalio/workflow": "^1.24.0"
+  }
+}

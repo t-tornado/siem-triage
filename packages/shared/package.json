@@ -1,0 +1,29 @@
+{
+  "name": "@st/shared",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "type": "module",
+  "author": "",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "exports": {
+    "./constants": {
+      "import": "./dist/constants.js",
+      "types": "./dist/constants.d.ts"
+    },
+    "./lib": {
+      "import": "./dist/lib/index.js",
+      "types": "./dist/lib/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "pino": "^9.0.0"
+  },
+  "devDependencies": {
+    "pino-pretty": "^13.0.0",
+    "tsup": "^8.5.1"
+  }
+}
