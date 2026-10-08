@@ -1,0 +1,59 @@
+services:
+  siem-triage-tpr:
+    image: temporalio/auto-setup
+    ports:
+      - 7233:7233
+    environment:
+      - DB=postgres12_pgx
+      - POSTGRES_SEEDS=siem-triage-tpr-db
+      - DB_PORT=5432
+      - POSTGRES_USER=tpr_u
+      - POSTGRES_PWD=tpr_p
+    depends_on:
+      siem-triage-tpr-db:
+        condition: service_healthy
+  siem-triage-tpr-ui:
+    image: temporalio/ui
+    ports:
+      - 8080:8080
+    environment:
+      - TEMPORAL_ADDRESS=siem-triage-tpr:7233
+  siem-triage-tpr-db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=tpr_u
+      - POSTGRES_PASSWORD=tpr_p
+      - POSTGRES_DB=tpr_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tpr_u -d tpr_db"]
+      timeout: 5s
+      retries: 5
+      interval: 5s
+    volumes:
+      - sttdb:/var/lib/postgresql/data
+  siem-triage-core-db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - stcdb:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres"]
+      timeout: 5s
+      retries: 5
+      interval: 5s
+  siem-triage-core:
+    build: ./servers/core
+    image: siem-triage-core
+    volumes:
+      - ./servers/core/src:/app/src
+    depends_on:
+      siem-triage-core-db:
+        condition: service_healthy
+volumes:
+  sttdb:
+  stcdb:

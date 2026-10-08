@@ -1,0 +1,11 @@
+{
+  "name": "siem-triage",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {},
+  "keywords": [],
+  "author": "github.com/t-tornado",
+  "license": "ISC"
+}
